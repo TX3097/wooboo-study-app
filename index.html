@@ -112,7 +112,7 @@ $('woobooForm').addEventListener('submit', async e=>{
  input.value='';send.disabled=true;send.textContent='Wooboo is thinking…';status.textContent='Connecting to Wooboo…';
  const context='Subjects and topics: '+syllabus.map(s=>s.name+': '+s.chapters.map(c=>c.name+' ('+c.status+')').join(', ')).join('; ')+'\nDaily study minutes: '+(studyProfile.dailyMinutes||120)+'\nExam date: '+(studyProfile.examDate||'not set')+'\nHard topics: '+(studyProfile.hardTopics||'not listed')+'\nStudy order: '+(studyProfile.studySteps||'not set');
  try{
-  const response=await fetch(WOOBOO_SUPABASE_URL+'/functions/v1/wooboo-ai',{method:'POST',headers:{'Content-Type':'application/json','apikey':WOOBOO_SUPABASE_KEY,'Authorization':'Bearer '+WOOBOO_SUPABASE_KEY},body:JSON.stringify({message,context})});
+  const response=await fetch(WOOBOO_SUPABASE_URL+'/functions/v1/wooboo-ai',{method:'POST',headers:{'Content-Type':'application/json','apikey':WOOBOO_SUPABASE_KEY},body:JSON.stringify({message,context})});
   const data=await response.json();if(!response.ok)throw new Error(data.error||'Could not reach Wooboo.');
   const bubble=document.createElement('div');bubble.className='item';bubble.style.background='#effaf3';const text=document.createElement('span');text.className='grow';text.textContent='Wooboo 🌷: '+data.answer;bubble.append(text);chat.append(bubble);status.textContent='Wooboo is ready to help 🌷';
  }catch(err){status.textContent=err.message||'Connection failed. Please try again.'}
